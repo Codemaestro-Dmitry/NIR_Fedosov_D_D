@@ -83,7 +83,9 @@ private slots:
     void ChoiseA_star();
 
     void ChoiseAnt();
-    void on_MainWindow_iconSizeChanged(const QSize &iconSize);
+
+    void SetLightTema();
+    void SetDarkTema();
 };
 
 #endif // MAINWINDOW_H

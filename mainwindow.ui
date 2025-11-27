@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>610</height>
+    <width>1020</width>
+    <height>695</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -23,7 +23,10 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>RoadGeneratar</string>
+  </property>
+  <property name="windowIcon">
+   <iconset theme="QIcon::ThemeIcon::ViewFullscreen"/>
   </property>
   <property name="styleSheet">
    <string notr="true">/* --- Glassy light-blue / light-purple theme --- */
@@ -230,14 +233,14 @@ QWidget.accent, QPushButton.accent {
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>781</width>
-      <height>531</height>
+      <width>1001</width>
+      <height>611</height>
      </rect>
     </property>
     <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-      <horstretch>100</horstretch>
-      <verstretch>100</verstretch>
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
      </sizepolicy>
     </property>
     <property name="minimumSize">
@@ -268,7 +271,7 @@ QWidget.accent, QPushButton.accent {
      <enum>QGraphicsView::ViewportAnchor::AnchorViewCenter</enum>
     </property>
     <property name="viewportUpdateMode">
-     <enum>QGraphicsView::ViewportUpdateMode::NoViewportUpdate</enum>
+     <enum>QGraphicsView::ViewportUpdateMode::FullViewportUpdate</enum>
     </property>
    </widget>
   </widget>
@@ -277,7 +280,7 @@ QWidget.accent, QPushButton.accent {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1020</width>
      <height>40</height>
     </rect>
    </property>
@@ -287,6 +290,8 @@ QWidget.accent, QPushButton.accent {
     </property>
     <addaction name="importJSON"/>
     <addaction name="podlozka"/>
+    <addaction name="separator"/>
+    <addaction name="action_3"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -294,20 +299,32 @@ QWidget.accent, QPushButton.accent {
     </property>
     <addaction name="dijstra_alg"/>
     <addaction name="A_star_alg"/>
+    <addaction name="separator"/>
     <addaction name="ant_alg"/>
    </widget>
-   <widget class="QMenu" name="run">
-    <property name="layoutDirection">
-     <enum>Qt::LayoutDirection::RightToLeft</enum>
+   <widget class="QMenu" name="menu_3">
+    <property name="title">
+     <string>Настройки</string>
     </property>
+    <widget class="QMenu" name="menu_4">
+     <property name="title">
+      <string>Внешний вид</string>
+     </property>
+     <addaction name="Light"/>
+     <addaction name="Dark"/>
+    </widget>
+    <addaction name="menu_4"/>
+   </widget>
+   <widget class="QMenu" name="menuPfgecr">
     <property name="title">
      <string>Запуск</string>
     </property>
-    <addaction name="Run"/>
+    <addaction name="Run_2"/>
    </widget>
+   <addaction name="menu_3"/>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
-   <addaction name="run"/>
+   <addaction name="menuPfgecr"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="dijstra_alg">
@@ -351,11 +368,49 @@ QWidget.accent, QPushButton.accent {
    </property>
   </action>
   <action name="Run">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::MediaSkipForward"/>
+   </property>
    <property name="text">
     <string>Run</string>
+   </property>
+  </action>
+  <action name="Light">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Светлая тема</string>
+   </property>
+  </action>
+  <action name="Dark">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::WeatherClearNight"/>
+   </property>
+   <property name="text">
+    <string>Темная тема</string>
+   </property>
+  </action>
+  <action name="Run_2">
+   <property name="text">
+    <string>Run</string>
+   </property>
+  </action>
+  <action name="action_3">
+   <property name="text">
+    <string>Создать граф по своей подложке</string>
    </property>
   </action>
  </widget>
  <resources/>
  <connections/>
+ <slots>
+  <slot>slot1()</slot>
+ </slots>
 </ui>

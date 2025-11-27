@@ -24,7 +24,9 @@
 #include<QTimer>
 #include<QAction>
 
+
 QString choise = "Дейкстра"; // Для выбора алгоритма
+
 
 // Пока что считается Эвклидово расстояние между точками, причем без учета высоты
 // тут бы какой-нибудь API подключить, чтобы получать загруженность дорог, но это
@@ -56,7 +58,17 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     QAction* dijstra_alg = findChild<QAction*>("dijstra_alg");
     QAction* A_star_alg = findChild<QAction*>("A_star_alg");
     QAction* ant_alg = findChild<QAction*>("ant_alg");
-    QAction* Run = findChild<QAction*>("Run");
+    QAction* Run = findChild<QAction*>("Run_2");
+
+    // - - - - - - - - - - - - - - Настройка темы приложения - - - - - - - - - - - - - - - - - - -
+
+    QAction* Light = findChild<QAction*>("Light");
+    QAction* Dark = findChild<QAction*>("Dark");
+
+    connect(Light, &QAction::triggered, this, &MainWindow::SetLightTema);
+    connect(Dark, &QAction::triggered, this, &MainWindow::SetDarkTema);
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     connect(importJSON, &QAction::triggered, this, &MainWindow::on_importButton_clicked);
     importJSON->setShortcut(QKeySequence("Ctrl+I"));
@@ -299,7 +311,7 @@ void MainWindow::on_buildButton_clicked()
     statusBar()->setStyleSheet("background-color: rgb(11, 218, 81); color: black;");
     statusBar()->showMessage("Маршрут построен");
     pause(500);
-    statusBar()->setStyleSheet("background-color: rgb(255, 255, 255); color: black;");
+    statusBar()->setStyleSheet("");
 }
 
 // Парсер JSONa (лучше не трогать, если не изменяется структура). Тут вообще планируется сделать что-то интересное
@@ -371,7 +383,7 @@ bool MainWindow::parseJsonFile(const QString &path)
 void MainWindow::drawGraph()
 {
     // Очищаем сцену и вспомогательные карты
-    //clearScene(); // Еще один вариант, где очищается подложка - - - - - - - - - - - - - - [!]
+    clearScene(); // Еще один вариант, где очищается подложка - - - - - - - - - - - - - - [!]
     edgeItems.clear();
     nodeItems.clear();
 
@@ -439,7 +451,7 @@ void MainWindow::drawGraph()
         const Vertex &v = it.value();
         QPointF p = sceneCoords.value(v.index);
         QGraphicsEllipseItem *ellipse = scene->addEllipse(p.x() - r, p.y() - r, r*2, r*2,
-                                                          QPen(Qt::black), QBrush(Qt::gray));
+                                                              QPen(Qt::black), QBrush(Qt::gray));
         ellipse->setData(0, v.index);
         ellipse->setZValue(1);
         nodeItems.insert(v.index, ellipse);
@@ -494,7 +506,7 @@ void MainWindow::highlightPath(const QVector<int> &path)
             QPair<int,int> key = qMakePair(qMin(a,b), qMax(a,b));
             if (edgeItems.contains(key))
             {
-                edgeItems[key]->setPen(QPen(Qt::red, 2));
+                edgeItems[key]->setPen(QPen(Qt::red, 6));
             }
         }
     }
@@ -739,9 +751,23 @@ void MainWindow::ChoiseAnt()
     choise = "Муравьиный поиск";
 }
 
-
-void MainWindow::on_MainWindow_iconSizeChanged(const QSize &iconSize)
+void MainWindow::SetLightTema()
 {
-    ui->centralwidget->size();
+    setStyleSheet("QWidget { background-color: white; color: #333333; font-family: \"Segoe UI\", \"Roboto\", \"Arial\"; font-size: 12px; } QWidget#centralwidget, QFrame#centralwidget { background-color: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 10px; } QGraphicsView, QGraphicsView#graphicsView_map { background-color: white; border: 1px solid #e0e0e0; border-radius: 6px; } QMenuBar { background: transparent; spacing: 6px; padding: 6px 8px; } QMenuBar::item { background: #f0f0f0; padding: 6px 10px; margin: 0 3px; border-radius: 6px; } QMenuBar::item:selected { background: #e3f2fd; color: #1565c0; } QMenu { background-color: white; border: 1px solid #e0e0e0; padding: 6px; border-radius: 8px; color: #333333; } QMenu::item { padding: 6px 24px; border-radius: 6px; } QMenu::item:selected { background: #e3f2fd; color: #1565c0; } QPushButton { background: #f5f5f5; border: 1px solid #e0e0e0; color: #333333; padding: 6px 12px; border-radius: 8px; min-height: 28px; } QPushButton:hover { background: #e0e0e0; } QPushButton:pressed { background: #bdbdbd; border: 1px solid #9e9e9e; } QToolButton { background: transparent; border: none; padding: 4px; border-radius: 6px; } QToolButton:hover { background: #f0f0f0; } QStatusBar { background: #f5f5f5; border-top: 1px solid #e0e0e0; padding: 4px; color: #666666; } QLineEdit, QTextEdit, QPlainTextEdit { background-color: white; border: 1px solid #e0e0e0; border-radius: 6px; padding: 6px; color: #333333; } QComboBox { background-color: white; border: 1px solid #e0e0e0; padding: 4px 8px; border-radius: 6px; } QComboBox::drop-down { subcontrol-origin: padding; subcontrol-position: top right; width: 20px; border-left: 1px solid #e0e0e0; } QProgressBar { background-color: #f0f0f0; border: 1px solid #e0e0e0; border-radius: 8px; text-align: center; padding: 2px; color: #333333; } QProgressBar::chunk { background: #2196f3; border-radius: 8px; } QListView, QTreeView { background-color: white; border: 1px solid #e0e0e0; border-radius: 6px; } QScrollBar:vertical { background: #f5f5f5; width: 10px; margin: 6px 2px 6px 2px; } QScrollBar::handle:vertical { background: #c0c0c0; min-height: 20px; border-radius: 5px; } QScrollBar::add-line, QScrollBar::sub-line { height: 0; } QToolTip { background-color: white; color: #333333; border: 1px solid #e0e0e0; padding: 6px; border-radius: 6px; } *:disabled { color: #9e9e9e; } QWidget.accent, QPushButton.accent { background: #2196f3; border: 1px solid #1976d2; color: white; }");
+    ui->Light->setChecked(true);
+    if(ui->Dark->isChecked())
+    {
+        ui->Dark->setChecked(false);
+    }
+}
+
+void MainWindow::SetDarkTema()
+{
+    setStyleSheet("QWidget { background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgba(18,22,30,200), stop:1 rgba(10,12,18,220)); color: rgba(240, 246, 255, 0.95); font-family: \"Segoe UI\", \"Roboto\", \"Arial\"; font-size: 12px; } QWidget#centralwidget, QFrame#centralwidget { background-color: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; } QGraphicsView, QGraphicsView#graphicsView_map { background-color: rgba(255,255,255,0.02); border: 1px solid rgba(200,210,255,0.06); border-radius: 6px; } QMenuBar { background: transparent; spacing: 6px; padding: 6px 8px; } QMenuBar::item { background: rgba(255,255,255,0.02); padding: 6px 10px; margin: 0 3px; border-radius: 6px; } QMenuBar::item:selected { background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgba(160,200,255,0.12), stop:1 rgba(200,160,255,0.10)); color: rgba(255,255,255,0.98); } QMenu { background-color: rgba(15,18,22,220); border: 1px solid rgba(255,255,255,0.05); padding: 6px; border-radius: 8px; color: rgba(240,246,255,0.95); } QMenu::item { padding: 6px 24px; border-radius: 6px; } QMenu::item:selected { background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 rgba(140,180,255,0.14), stop:1 rgba(190,140,255,0.12)); color: rgba(10,10,12,0.98); } QPushButton { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgba(130,180,255,0.12), stop:1 rgba(200,160,255,0.10)); border: 1px solid rgba(255,255,255,0.07); color: rgba(10,10,12,0.95); padding: 6px 12px; border-radius: 8px; min-height: 28px; } QPushButton:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgba(130,180,255,0.20), stop:1 rgba(200,160,255,0.16)); } QPushButton:pressed { background-color: rgba(120,150,220,0.22); border: 1px solid rgba(100,120,180,0.25); } QToolButton { background: transparent; border: none; padding: 4px; border-radius: 6px; } QToolButton:hover { background: rgba(255,255,255,0.03); } QStatusBar { background: transparent; border-top: 1px solid rgba(255,255,255,0.03); padding: 4px; color: rgba(200,210,230,0.9); } QLineEdit, QTextEdit, QPlainTextEdit { background-color: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 6px; padding: 6px; color: rgba(240,246,255,0.95); } QComboBox { background-color: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 6px; } QComboBox::drop-down { subcontrol-origin: padding; subcontrol-position: top right; width: 20px; border-left: 1px solid rgba(255,255,255,0.03); } QProgressBar { background-color: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; text-align: center; padding: 2px; color: rgba(240,246,255,0.95); } QProgressBar::chunk { background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 rgba(120,170,255,0.6), stop:1 rgba(190,130,255,0.6)); border-radius: 8px; } QListView, QTreeView { background-color: rgba(255,255,255,0.015); border: 1px solid rgba(255,255,255,0.03); border-radius: 6px; } QScrollBar:vertical { background: transparent; width: 10px; margin: 6px 2px 6px 2px; } QScrollBar::handle:vertical { background: rgba(200,210,255,0.10); min-height: 20px; border-radius: 5px; border: 1px solid rgba(255,255,255,0.03); } QScrollBar::add-line, QScrollBar::sub-line { height: 0; } QToolTip { background-color: rgba(20,24,30,230); color: rgba(240,246,255,0.95); border: 1px solid rgba(255,255,255,0.05); padding: 6px; border-radius: 6px; } *:disabled { color: rgba(200,210,220,0.6); } QWidget.accent, QPushButton.accent { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgba(120,170,255,0.24), stop:1 rgba(200,140,255,0.20)); border: 1px solid rgba(180,190,255,0.10); color: rgba(8,8,10,0.95); }");
+    ui->Dark->setChecked(true);
+    if(ui->Light->isChecked())
+    {
+        ui->Light->setChecked(false);
+    }
 }
 
