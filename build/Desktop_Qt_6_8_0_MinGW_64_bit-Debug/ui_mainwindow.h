@@ -42,7 +42,13 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(800, 600);
+        MainWindow->resize(800, 610);
+        QSizePolicy sizePolicy(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
+        MainWindow->setSizePolicy(sizePolicy);
+        MainWindow->setMinimumSize(QSize(800, 610));
         MainWindow->setStyleSheet(QString::fromUtf8("/* --- Glassy light-blue / light-purple theme --- */\n"
 "/* \320\236\321\201\320\275\320\276\320\262\320\275\321\213\320\265 \321\206\320\262\320\265\321\202\320\260 (\320\277\320\276\320\264\321\201\320\272\320\260\320\267\320\272\320\260): \320\274\320\276\320\266\320\275\320\276 \320\277\320\276\320\264\320\277\321\200\320\260\320\262\320\270\321\202\321\214 rgba() \320\277\320\276 \320\262\320\272\321\203\321\201\321\203 */\n"
 "QWidget {\n"
@@ -261,9 +267,27 @@ public:
         Run->setObjectName("Run");
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
+        QSizePolicy sizePolicy1(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(centralwidget->sizePolicy().hasHeightForWidth());
+        centralwidget->setSizePolicy(sizePolicy1);
         graphicsView_map = new QGraphicsView(centralwidget);
         graphicsView_map->setObjectName("graphicsView_map");
         graphicsView_map->setGeometry(QRect(10, 10, 781, 531));
+        QSizePolicy sizePolicy2(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding);
+        sizePolicy2.setHorizontalStretch(100);
+        sizePolicy2.setVerticalStretch(100);
+        sizePolicy2.setHeightForWidth(graphicsView_map->sizePolicy().hasHeightForWidth());
+        graphicsView_map->setSizePolicy(sizePolicy2);
+        graphicsView_map->setMinimumSize(QSize(781, 531));
+        graphicsView_map->setMaximumSize(QSize(16777215, 16777215));
+        graphicsView_map->setTabletTracking(false);
+        graphicsView_map->setFocusPolicy(Qt::FocusPolicy::StrongFocus);
+        graphicsView_map->setFrameShadow(QFrame::Shadow::Sunken);
+        graphicsView_map->setLineWidth(2);
+        graphicsView_map->setResizeAnchor(QGraphicsView::ViewportAnchor::AnchorViewCenter);
+        graphicsView_map->setViewportUpdateMode(QGraphicsView::ViewportUpdateMode::NoViewportUpdate);
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
@@ -274,6 +298,7 @@ public:
         menu_2->setObjectName("menu_2");
         run = new QMenu(menubar);
         run->setObjectName("run");
+        run->setLayoutDirection(Qt::LayoutDirection::RightToLeft);
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName("statusbar");

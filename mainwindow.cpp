@@ -371,7 +371,7 @@ bool MainWindow::parseJsonFile(const QString &path)
 void MainWindow::drawGraph()
 {
     // Очищаем сцену и вспомогательные карты
-    clearScene(); // Еще один вариант, где очищается подложка - - - - - - - - - - - - - - [!]
+    //clearScene(); // Еще один вариант, где очищается подложка - - - - - - - - - - - - - - [!]
     edgeItems.clear();
     nodeItems.clear();
 
@@ -737,5 +737,11 @@ void MainWindow::ChoiseA_star()
 void MainWindow::ChoiseAnt()
 {
     choise = "Муравьиный поиск";
+}
+
+
+void MainWindow::on_MainWindow_iconSizeChanged(const QSize &iconSize)
+{
+    ui->centralwidget->size();
 }
 
