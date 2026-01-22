@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1020</width>
+    <height>695</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>610</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>RoadGeneratar</string>
+  </property>
+  <property name="windowIcon">
+   <iconset theme="QIcon::ThemeIcon::ViewFullscreen"/>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/* --- Glassy light-blue / light-purple theme --- */
+/* Основные цвета (подсказка): можно подправить rgba() по вкусу */
+QWidget {
+    background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+        stop:0 rgba(18,22,30,200), stop:1 rgba(10,12,18,220)); /* тёмный фон окна */
+    color: rgba(240, 246, 255, 0.95); /* основной цвет текста */
+    font-family: &quot;Segoe UI&quot;, &quot;Roboto&quot;, &quot;Arial&quot;;
+    font-size: 12px;
+}
+
+/* Центральная «стеклянная» панель — большинство виджетов наследуют стиль от QWidget */
+QWidget#centralwidget, QFrame#centralwidget {
+    background-color: rgba(255, 255, 255, 0.03); /* тонкая светлая плёнка */
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+}
+
+/* GraphicsView — белая область с лёгкой «рамкой стекла» */
+QGraphicsView, QGraphicsView#graphicsView_map {
+    background-color: rgba(255,255,255,0.02);
+    border: 1px solid rgba(200,210,255,0.06);
+    border-radius: 6px;
+}
+
+/* Меню-бар */
+QMenuBar {
+    background: transparent;
+    spacing: 6px;
+    padding: 6px 8px;
+}
+
+QMenuBar::item {
+    background: rgba(255,255,255,0.02);
+    padding: 6px 10px;
+    margin: 0 3px;
+    border-radius: 6px;
+}
+
+QMenuBar::item:selected {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 rgba(160,200,255,0.12), stop:1 rgba(200,160,255,0.10));
+    color: rgba(255,255,255,0.98);
+}
+
+/* Меню выпадающее */
+QMenu {
+    background-color: rgba(15,18,22,220);
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 6px;
+    border-radius: 8px;
+    color: rgba(240,246,255,0.95);
+}
+
+QMenu::item {
+    padding: 6px 24px;
+    border-radius: 6px;
+}
+
+QMenu::item:selected {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 rgba(140,180,255,0.14), stop:1 rgba(190,140,255,0.12));
+    color: rgba(10,10,12,0.98);
+}
+
+/* Кнопки */
+QPushButton {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+        stop:0 rgba(130,180,255,0.12), stop:1 rgba(200,160,255,0.10));
+    border: 1px solid rgba(255,255,255,0.07);
+    color: rgba(10,10,12,0.95);
+    padding: 6px 12px;
+    border-radius: 8px;
+    min-height: 28px;
+}
+
+QPushButton:hover {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+        stop:0 rgba(130,180,255,0.20), stop:1 rgba(200,160,255,0.16));
+    transform: none;
+}
+
+QPushButton:pressed {
+    background-color: rgba(120,150,220,0.22);
+    border: 1px solid rgba(100,120,180,0.25);
+}
+
+/* Flat buttons / tool buttons (меню может использовать такие) */
+QToolButton {
+    background: transparent;
+    border: none;
+    padding: 4px;
+    border-radius: 6px;
+}
+
+QToolButton:hover {
+    background: rgba(255,255,255,0.03);
+}
+
+/* Статусбар */
+QStatusBar {
+    background: transparent;
+    border-top: 1px solid rgba(255,255,255,0.03);
+    padding: 4px;
+    color: rgba(200,210,230,0.9);
+}
+
+/* Поля ввода */
+QLineEdit, QTextEdit, QPlainTextEdit {
+    background-color: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 6px;
+    padding: 6px;
+    color: rgba(240,246,255,0.95);
+}
+
+/* Комбобокс */
+QComboBox {
+    background-color: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 20px;
+    border-left: 1px solid rgba(255,255,255,0.03);
+}
+
+/* Прогрессбар */
+QProgressBar {
+    background-color: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 8px;
+    text-align: center;
+    padding: 2px;
+    color: rgba(240,246,255,0.95);
+}
+
+QProgressBar::chunk {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 rgba(120,170,255,0.6), stop:1 rgba(190,130,255,0.6));
+    border-radius: 8px;
+}
+
+/* Списки и дерево */
+QListView, QTreeView {
+    background-color: rgba(255,255,255,0.015);
+    border: 1px solid rgba(255,255,255,0.03);
+    border-radius: 6px;
+}
+
+/* Скроллбары (сдержанный стиль) */
+QScrollBar:vertical {
+    background: transparent;
+    width: 10px;
+    margin: 6px 2px 6px 2px;
+}
+
+QScrollBar::handle:vertical {
+    background: rgba(200,210,255,0.10);
+    min-height: 20px;
+    border-radius: 5px;
+    border: 1px solid rgba(255,255,255,0.03);
+}
+
+QScrollBar::add-line, QScrollBar::sub-line { height: 0; }
+
+/* Tooltip */
+QToolTip {
+    background-color: rgba(20,24,30,230);
+    color: rgba(240,246,255,0.95);
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 6px;
+    border-radius: 6px;
+}
+
+/* Disabled state — менее ярко */
+*:disabled {
+    color: rgba(200,210,220,0.6);
+}
+
+/* Мини-параметры для акцентов — использовать класс .accent где нужно */
+QWidget.accent, QPushButton.accent {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+        stop:0 rgba(120,170,255,0.24), stop:1 rgba(200,140,255,0.20));
+    border: 1px solid rgba(180,190,255,0.10);
+    color: rgba(8,8,10,0.95);
+}
+</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <widget class="QGraphicsView" name="graphicsView_map">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>1001</width>
+      <height>611</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>781</width>
+      <height>531</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>16777215</width>
+      <height>16777215</height>
+     </size>
+    </property>
+    <property name="tabletTracking">
+     <bool>false</bool>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::FocusPolicy::StrongFocus</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
+    </property>
+    <property name="lineWidth">
+     <number>2</number>
+    </property>
+    <property name="resizeAnchor">
+     <enum>QGraphicsView::ViewportAnchor::AnchorViewCenter</enum>
+    </property>
+    <property name="viewportUpdateMode">
+     <enum>QGraphicsView::ViewportUpdateMode::FullViewportUpdate</enum>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1020</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Импорт</string>
+    </property>
+    <addaction name="importJSON"/>
+    <addaction name="podlozka"/>
+    <addaction name="separator"/>
+    <addaction name="drawgraf"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>Алгоритм</string>
+    </property>
+    <addaction name="dijstra_alg"/>
+    <addaction name="A_star_alg"/>
+    <addaction name="separator"/>
+    <addaction name="ant_alg"/>
+   </widget>
+   <widget class="QMenu" name="menu_3">
+    <property name="title">
+     <string>Настройки</string>
+    </property>
+    <widget class="QMenu" name="menu_4">
+     <property name="title">
+      <string>Внешний вид</string>
+     </property>
+     <addaction name="Light"/>
+     <addaction name="Dark"/>
+    </widget>
+    <addaction name="menu_4"/>
+    <addaction name="savescene"/>
+   </widget>
+   <widget class="QMenu" name="menuPfgecr">
+    <property name="title">
+     <string>Запуск</string>
+    </property>
+    <property name="separatorsCollapsible">
+     <bool>false</bool>
+    </property>
+    <property name="toolTipsVisible">
+     <bool>false</bool>
+    </property>
+    <addaction name="Run_2"/>
+   </widget>
+   <widget class="QMenu" name="menu_5">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>661</x>
+      <y>114</y>
+      <width>237</width>
+      <height>126</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LayoutDirection::LeftToRight</enum>
+    </property>
+    <property name="title">
+     <string>Помощь</string>
+    </property>
+    <addaction name="helpdialog"/>
+    <addaction name="aboutdialog"/>
+   </widget>
+   <addaction name="menu_3"/>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
+   <addaction name="menuPfgecr"/>
+   <addaction name="menu_5"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="dijstra_alg">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Дейкстра</string>
+   </property>
+  </action>
+  <action name="A_star_alg">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>A*</string>
+   </property>
+  </action>
+  <action name="ant_alg">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Муравьиный поиск (в разработке)</string>
+   </property>
+  </action>
+  <action name="importJSON">
+   <property name="text">
+    <string>Импорт JSON графа</string>
+   </property>
+  </action>
+  <action name="podlozka">
+   <property name="text">
+    <string>Импорт подложки (.PNG)</string>
+   </property>
+  </action>
+  <action name="Run">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::MediaSkipForward"/>
+   </property>
+   <property name="text">
+    <string>Run</string>
+   </property>
+  </action>
+  <action name="Light">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Светлая тема</string>
+   </property>
+  </action>
+  <action name="Dark">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::WeatherClearNight"/>
+   </property>
+   <property name="text">
+    <string>Темная тема</string>
+   </property>
+  </action>
+  <action name="Run_2">
+   <property name="text">
+    <string>Run</string>
+   </property>
+  </action>
+  <action name="drawgraf">
+   <property name="text">
+    <string>Создать граф по своей подложке</string>
+   </property>
+  </action>
+  <action name="helpdialog">
+   <property name="text">
+    <string>Как пользоваться программой?</string>
+   </property>
+  </action>
+  <action name="aboutdialog">
+   <property name="text">
+    <string>Информация о разработчике</string>
+   </property>
+  </action>
+  <action name="savescene">
+   <property name="text">
+    <string>Сохранить карту</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+ <slots>
+  <slot>slot1()</slot>
+ </slots>
+</ui>
